@@ -1,0 +1,67 @@
+CREATE TABLE Customer (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100),
+    phone VARCHAR(15),
+    address VARCHAR(255)
+);
+
+CREATE TABLE Car (
+    car_id INT AUTO_INCREMENT PRIMARY KEY,
+    make VARCHAR(50),
+    model VARCHAR(50),
+    year INT,
+    price DECIMAL(10, 2),
+    serial_number VARCHAR(50) UNIQUE
+);
+
+CREATE TABLE Sales (
+    sale_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    car_id INT,
+    salesperson_id INT,
+    sale_date DATE,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
+    FOREIGN KEY (car_id) REFERENCES Car(car_id)
+);
+
+CREATE TABLE ServiceRecords (
+    service_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    car_id INT,
+    mechanic_name VARCHAR(100),
+    service_date DATE,
+    service_description TEXT,
+    parts_used TEXT,
+    total_cost DECIMAL(10, 2),
+    FOREIGN KEY (car_id) REFERENCES Car(car_id)
+);
+
+CREATE TABLE Salesperson (
+    salesperson_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    phone VARCHAR(15)
+);
+
+CREATE TABLE Invoice (
+    invoice_id INT AUTO_INCREMENT PRIMARY KEY,
+    sale_id INT,
+    invoice_date DATE,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (sale_id) REFERENCES Sales(sale_id)
+);
+
+
+SELECT * FROM Customer;
+SELECT * FROM Car;
+SELECT * FROM ServiceRecords;
+SELECT * FROM Salesperson;
+INSERT INTO Car (make, model, year, price) VALUES ('Toyota', 'Camry', 2020, 30000.00, ABC 123);
+INSERT INTO ServiceRecords (customer_id, car_id, mechanic_name, service_date, service_description, parts_used, total_cost)
+VALUES (1, 1, 'John Doe', '2024-09-26', 'Oil Change', 'Oil Filter', 50.00);
+INSERT INTO ServiceRecords (customer_id, car_id, mechanic_name, service_date, service_description, parts_used, total_cost)
+VALUES (1, 1, 'John Doe', '2024-09-26', 'Oil Change', 'Oil Filter', 50.00);
+INSERT INTO Salesperson (name, email, phone) VALUES ('Alice Johnson', 'alice.johnson@example.com', '123-456-7890');
+SELECT * FROM Invoice;
